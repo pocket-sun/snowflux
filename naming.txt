@@ -1,0 +1,40 @@
+./detector_configuration.dat
+    <detconfigname> totalmass ...
+
+./channels
+    channels_<channelfilename>.dat   # channelfilename used in perl
+
+    ./channels_<channelfilename>.dat
+        <channelname=[nc_]neutrino_target[_finalflag]> channelnumber ...
+
+./xscns
+    xs_<channelname>.dat
+
+./smear
+    smear_<channelname>_<detconfigname>.dat
+
+./effic
+    effic_<channelname>_<detconfigname>.dat
+
+./fluxes
+    <fluxesname>.dat
+
+./background
+    bg_<channelname>_<detconfigname>.dat
+        
+./out
+    <fluxesname>_<channelname>_<detconfigname>.dat # 4 for each
+
+
+
+usage:
+
+# wgt=0 for no weight 
+./supernova.pl <fluxesname> <channelfilename> <detconfigname> [wgt?] 
+
+# non-smear=1 for no smearing
+./make_event_table.pl <fluxesname> <channelfilename> <detconfigname> [non-smear?] 
+
+# non-smear=1 for no smearing
+# this script won't use smearing for lead
+./make_event_table_lead.pl <fluxesname> <channelfilename> <detconfigname> [non-smear?] 
