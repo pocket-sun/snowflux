@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     }
     // channels and energy binning
     // energy difference must greater than 0.5 MeV
-    int selected_channels[] = {0, 1}; // refer to channels file 
+    int selected_channels[] = {0, 1}; // refer to snowglobe/channels/xx.dat second cloumn
     double selected_energies[15];
     for(size_t k = 0; k != 15; ++k) {
         selected_energies[k] = (k+1)*50./16*1e-3;
@@ -198,14 +198,16 @@ int main(int argc, char *argv[])
         exit(-23);
     }
     
-    printf("\n------------------\n");
-    for(size_t k = 0; k != num_energies-1; ++k) {
-        printf("[%.5lf, %.5lf]\t%.1lf\n",
-            selected_energies[k], selected_energies[k+1], countings_per_interval[k]);
-    }
-    printf("\n------------------\n");
+    printf("\n------ original spectral -------\n");
+    printf("Ev (MeV)                countings\n");
     for(auto &k: mcountings_per_interval) {
-        printf("%.5lf\t%.5lf\n", k.first, k.second);
+        printf("%-10.4lf              %-10.4lf\n", k.first*1e3, k.second);
+    }
+    printf("\n-------- final spectral --------\n");
+    printf("Ev (MeV)                countings\n");
+    for(size_t k = 0; k != num_energies-1; ++k) {
+        printf("[%-8.5lf, %-8.5lf]    %-11.1lf\n",
+            selected_energies[k]*1e3, selected_energies[k+1]*1e3, countings_per_interval[k]);
     }
 
             
