@@ -1,0 +1,1 @@
+by default, efficiencies are for {0, 0.5, 1, 1.5, ..., 99.5, 100} MeV post-smearing neutrino energy (i.e., reconstructed neutrino energy, thus detector configuration should be given)
