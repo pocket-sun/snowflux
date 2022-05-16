@@ -22,5 +22,5 @@ version is 3.2.18
 
 **WARRNING**:  
 the code is for private usage and I do not follow the LICENSE prescripted by ``SNOWGLOBE`` and
-``GLOBE`` author! If someone wants to use it for constructing public available tools, please make
-sure to credit to the original ``SNOWGLOBE`` authors and obey the LICENSE rule given by them!
+``GLOBE`` authors! If someone wants to use it for constructing public available tools, please make
+sure to credit to the ``SNOWGLOBE`` and ``GLOBE`` authors and obey the LICENSE rule given by them!
