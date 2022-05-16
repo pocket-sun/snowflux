@@ -14,10 +14,10 @@ for example usage:
     ./supernova argon  
 
 
-as with flux parameters and energy binning information, see source/src/supernova.cpp 
-line20 to line36.
-adjustement is desired through little effort for future plan.
-enviroment variable GLB_DIR should be set to the build path of ``GLOBE``, my ``GLOBE`` 
+As with flux parameters and energy binning information, see source/src/supernova.cpp 
+line20 to line36.  
+Adjustement is desired through little effort for future plan.  
+Enviroment variable GLB_DIR should be set to the build path of ``GLOBE``, my ``GLOBE`` 
 version is 3.2.18
 
 **WARRNING**:  
