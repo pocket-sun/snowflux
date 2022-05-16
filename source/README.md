@@ -1,17 +1,17 @@
 for example usage:
 
-step 1.
-    cd snowglobe
-    ./supernova.pl argon ar40kt
-    cd ..
+* step 1.  
+    cd snowglobe  
+    ./supernova.pl argon ar40kt  
+    cd ..  
 
-step 2.
-    cd src
-    make && make install
-    cd ..
+* step 2.  
+    cd src  
+    make && make install  
+    cd ..  
 
-step 3.
-    ./supernova argon
+* step 3.  
+    ./supernova argon  
 
 
 as with flux parameters and energy binning information, see source/src/supernova.cpp 
