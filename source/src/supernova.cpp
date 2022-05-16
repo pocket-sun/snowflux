@@ -128,7 +128,6 @@ int main(int argc, char *argv[])
     size_t ifile;
   
     double energy, countings; // GeV, numbers/0.5MeV
-    //
     size_t num_channels = sizeof(selected_channels) / sizeof(selected_channels[0]);
     size_t num_energies = sizeof(selected_energies) / sizeof(selected_energies[0]);
     double countings_per_interval[num_energies-1] = {0.}; // all initialized to 0.
@@ -140,10 +139,12 @@ int main(int argc, char *argv[])
         char *membuf; // dynamically allocated, need free at last
         size_t buflen;
         FILE *fmem = open_memstream(&membuf, &buflen);
+#ifdef DEBUG
         if(fmem == NULL) {
             fprintf(stderr, "fail to open_memstream");
             exit(-1);
         }
+#endif
         // smeared, weighted 
         ret = glbShowChannelRates(fmem,0,chan_num[selected_channels[ifile]],GLB_POST,GLB_W_EFF,GLB_W_BG);
         fflush(fmem);
@@ -164,24 +165,28 @@ int main(int argc, char *argv[])
     size_t cnt = 0, index = 0;
     double elast; // energy last
     for(const auto &k: mcountings_per_interval) {
+#ifdef DEBUG
         cnt++;
-        if(cnt>1 && fabs(k.first-elast-2*de) > 5e-4) {
+        if(cnt>1 && fabs(k.first-elast-2*de)>5e-4) {
             printf("%lf, %lf\n", k.first, elast);
             fprintf(stderr, "snowglobe interval error");
             exit(-10);
         }
         elast = k.first;
+#endif
         if(selected_energies[index] >= elast-de 
             && selected_energies[index] <= elast+de)
             selected_energies[index++] = elast-de;
     }
+#ifdef DEBUG
     if(index != num_energies) {
         fprintf(stderr, "energy limit overflow");
         exit(-3);
     }
+#endif
     index = 0;
     bool hold = 0;
-    const double ethre = 1e-4; // 1e-5
+    const double ethre = 1e-4; // less radical than 1e-5, GeV
     for(const auto &k: mcountings_per_interval) {
         if(hold || (index!=num_energies-1 
             && fabs(k.first-de-selected_energies[index])<ethre)) {
@@ -193,10 +198,12 @@ int main(int argc, char *argv[])
             }
         }
     }
+#ifdef DEBUG
     if(index != num_energies-1) {
         fprintf(stderr, "sth went wrong");
         exit(-23);
     }
+#endif
     
     printf("\n------ original spectral -------\n");
     printf("Ev (MeV)                countings\n");

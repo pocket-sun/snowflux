@@ -6,6 +6,7 @@ globesconf= $(exec_prefix)/bin/globes-config
 CC = g++
 CFLAGS = -Wall
 local_CFLAGS = -O4
+debug_CFLAG = -DDEBUG
 
 INCFLAGS:=$(shell $(globesconf) --include)
 local_LDFLAGS:=$(shell $(globesconf) --libs)
@@ -24,8 +25,7 @@ supernova: supernova.o pinched.o
 	$(CC) supernova.o pinched.o -o supernova  $(LDFLAGS) $(local_LDFLAGS)
 
 %.o : %.cpp
-	$(CC) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
-	$(CC) $(CFLAGS) pinched.cpp -c
+	$(CC) $(debug_CFLAG) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
 
 install:
 	cp $(BIN) ../
