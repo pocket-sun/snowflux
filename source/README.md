@@ -1,22 +1,15 @@
 for example usage:
 
 * step 1.  
-    cd snowglobe  
-    ./supernova.pl argon ar40kt  
-    cd ..  
-
-* step 2.  
     cd src  
     make && make install  
     cd ..  
 
-* step 3.  
-    ./supernova argon  
+* step 2.  
+    ./supernova
 
 
-As with flux parameters and energy binning information, see source/src/supernova.cpp 
-line20 to line36.  
-Adjustement is desired through little effort for future plan.  
+main.cpp is an example file for usage.
 Enviroment variable GLB_DIR should be set to the build path of ``GLOBE``, my ``GLOBE`` 
 version is 3.2.18
 

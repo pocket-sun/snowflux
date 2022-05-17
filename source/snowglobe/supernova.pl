@@ -6,6 +6,7 @@
 $fluxname = "pinched_0";
 $channame = $ARGV[0];
 $expt_config = $ARGV[1];
+$glbfilename = $ARGV[2];
 
 
 $chanfilename = "channels/channels_".$channame.".dat";
@@ -47,7 +48,8 @@ if ($ewins{'emax'} > 0.199 and $ewins{'emax'} < 0.201) {
 
 # Create the globes file
 
-$globesfilename = "supernova.glb";
+#$globesfilename = "supernova.glb";
+$globesfilename = $glbfilename;
 
 open(GLOBESFILE,">$globesfilename"); # open for writing
 

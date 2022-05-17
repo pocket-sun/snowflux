@@ -5,8 +5,8 @@ globesconf= $(exec_prefix)/bin/globes-config
 
 CC = g++
 CFLAGS = -Wall
-local_CFLAGS = -O4
-debug_CFLAG = -DDEBUG
+local_CFLAGS = 
+debug_CFLAGS = -DDEBUG
 
 INCFLAGS:=$(shell $(globesconf) --include)
 local_LDFLAGS:=$(shell $(globesconf) --libs)
@@ -15,17 +15,17 @@ local_LTLDFLAGS:=$(shell $(globesconf) --ltlibs)
 
 
 BIN = supernova 
-OBJ = supernova.o pinched.o
+OBJ = main.o detector.o pinched.o
 
 all: $(BIN)
 
 
 
-supernova: supernova.o pinched.o
-	$(CC) supernova.o pinched.o -o supernova  $(LDFLAGS) $(local_LDFLAGS)
+supernova: main.o detector.o pinched.o
+	$(CC) main.o detector.o pinched.o -o supernova  $(LDFLAGS) $(local_LDFLAGS)
 
 %.o : %.cpp
-	$(CC) $(debug_CFLAG) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
+	$(CC) $(debug_CFLAGS) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
 
 install:
 	cp $(BIN) ../

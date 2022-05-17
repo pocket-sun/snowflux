@@ -28,7 +28,7 @@ static void write(double a, double B[], ofstream& outfile){
   outfile << setw(8) << B[2] << "\t " ;
   outfile << setw(8) << B[2] << "\t " ;
 
-  outfile << endl;
+  outfile << "\n";
 
 }
 
@@ -69,7 +69,7 @@ static void write_nh(double a, double B[], double th12, ofstream& outfile){
   outfile << setw(8) << c2th12*B[1]+s2th12*B[2] << "\t " ;
   outfile << setw(8) << ((1.-c2th12)*B[1]+(1+c2th12)*B[2])/2. << "\t " ;
   outfile << setw(8) << ((1.-c2th12)*B[1]+(1+c2th12)*B[2])/2. << "\t " ;
-  outfile << endl;
+  outfile << "\n";
 
 }
 
@@ -114,7 +114,7 @@ static void write_ih(double a, double B[], double th12, ofstream& outfile){
   outfile << setw(8) << B[2] << "\t " ;
   outfile << setw(8) << (B[1]+B[2])/2. << "\t " ;
   outfile << setw(8) << (B[1]+B[2])/2. << "\t " ;
-  outfile << endl;
+  outfile << "\n";
 
 }
 
@@ -135,7 +135,7 @@ static double phi(double E_nu, double E_nu0, double alpha) {
 alpha_nu_e  alpha_nubar_e  alpha_nu_x  <E>_nu_e  <E>_nubar_e  <E>_nu_x  L_nu_e  L_nubar_e  L_nu_x
 units: 1, MeV, erg
 */
-int GarchingFluence(double alpha[], double E0[], double L[], double dist){
+int GarchingFluence(double alpha[], double E0_0[], double L_0[], double dist){
 
     const double kpc2cm=3.08568025e21; // [dist]=cm, 1kpc
     const double gevpererg = 624.15; // 1 erg = 624.151 GeV
@@ -149,19 +149,18 @@ int GarchingFluence(double alpha[], double E0[], double L[], double dist){
     ofstream outfile_ih;
     double E_nu;
     double F[3];
+    double L[3], E0[3];
 
 	// E must be in GeV
-	for(int k=0; k<3; k++){
-	    E0[k]/=1000.;
-	}
 	// Convert luminosity to GeV/s
-	L[0] *= gevpererg;
-	L[1] *= gevpererg;
-	L[2] *= gevpererg;
+	for(int k=0; k<3; k++){
+	    E0[k] = E0_0[k]/1000.;
+        L[k] = L_0[k]*gevpererg;
+	}
 
 	// create filename for output file and open respective file 
 	//		string filename="pinched_";
-	outfile.open("./snowglobe/fluxes/pinched_0.dat", ofstream::out | ofstream::trunc);
+	outfile.open("./snowglobe/fluxes/pinched_0.dat"); // out and trunc implicit
 
 	if (!outfile.good()) {
         cerr << "fail to open pinched_0.dat" << endl;
