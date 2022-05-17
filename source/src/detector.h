@@ -25,7 +25,7 @@ public:
     char *getGlbFileName() { return glb_file_name; };
 
     // destructor
-    ~Detector() = default;
+    ~Detector()=default;
 
 private:
     void check() const;

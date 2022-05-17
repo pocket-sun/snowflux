@@ -5,7 +5,7 @@ globesconf= $(exec_prefix)/bin/globes-config
 
 CC = g++
 CFLAGS = -Wall
-local_CFLAGS = 
+local_CFLAGS = -O4
 debug_CFLAGS = -DDEBUG
 
 INCFLAGS:=$(shell $(globesconf) --include)

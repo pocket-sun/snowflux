@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
                   
-    Detector expr(DUNE);
+    Detector expr(HyperK);
 
     /* Initialize libglobes */
     char name[10]; strcpy(name, "snowglb");
