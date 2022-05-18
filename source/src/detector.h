@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "detector.h"
+#include <globes/globes.h>   /* GLoBES library */
 
 #define MAXCHANS 32
 
@@ -20,21 +21,38 @@ public:
 
     // method
     void setEnergyBins(double ebins[], size_t binsNumber);
-    void generateRates();
+    void generateRates(double res[], size_t res_size);
     void printEnergyBins() const;
     char *getGlbFileName() { return glb_file_name; };
+    void glbreload();
+    void glbinit();
 
     // destructor
-    ~Detector()=default;
+    ~Detector() {
+        if(init_toggle == 1) {
+            // clear Globe settings
+            glbFreeParams(true_values);
+            glbFreeParams(test_values);
+            glbClearExperimentList();
+        }
+    }
 
 private:
-    void check() const;
+    void checkinit() const;
+    void checkene() const;
     void getChainFile();
 
     double *SelectedEnergies = NULL;// GeV
     size_t NumberEnergies = 0;
     size_t SelectedChannels[MAXCHANS];
     size_t NumberChannels;
+
+    double theta12 = 0., theta13 = 0., theta23 = 0.;
+    double deltacp = 0., sdm = 0., ldm = 0;
+    /* Initialize parameter vector(s) */
+    glb_params true_values;
+    glb_params test_values;
+    bool init_toggle = 0;
 
     char glb_file_name[64], detconfigname[64], channelname[64];
     int chan_num[MAXCHANS];
@@ -244,10 +262,18 @@ private:
 
 };
 
+// check glbinit() and setEnergyBins
 inline
-void Detector::check() const {
+void Detector::checkinit() const {
+    if(init_toggle == 0) {
+        std::fprintf(stderr, "you must initialize the glb by Detector::glbinit()");
+        exit(-23);
+    }
+}
+inline
+void Detector::checkene() const {
     if(SelectedEnergies == NULL) {
-        std::fprintf(stderr, "energies muse be set");
+        std::fprintf(stderr, "energies muse be set by Detector::setEnergyBins()");
         exit(-4);
     }
 }

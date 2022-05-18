@@ -1,5 +1,4 @@
 #include "detector.h"
-#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -96,9 +95,14 @@ void Detector::getChainFile() {
     fclose(fp_chans);
 }
 
-void Detector::generateRates() { 
+void Detector::generateRates(double res[], size_t res_size) { 
 
-    check();
+    checkinit();
+    checkene();
+    if(res_size != 3*(NumberEnergies-1)) {
+        fprintf(stderr, "res size error");
+        exit(-9);
+    }
     size_t index;
   
     double energy, countings; // GeV, numbers/0.5MeV
@@ -161,7 +165,8 @@ void Detector::generateRates() {
         }
     }
 
-    
+
+#ifdef DEBUG    
     printf("\n------ original spectral -------\n");
     printf("Ev (MeV)                countings\n");
     for(auto &k: mcountings_per_interval) {
@@ -177,7 +182,15 @@ void Detector::generateRates() {
     printf("[%-8.5lf, %-8.5lf]    %-11.1lf\n",
             SelectedEnergies[index]*1e3-0.25, SelectedEnergies[index+1]*1e3+0.25,
                 countings_per_interval[index]);
-
+#endif
+    for(index = 0; index != NumberEnergies-2; ++index) {
+        res[index*3] = SelectedEnergies[index]*1e3-0.25;
+        res[index*3+1] = SelectedEnergies[index+1]*1e3-0.25;
+        res[index*3+2] = countings_per_interval[index];
+    }
+    res[index*3] = SelectedEnergies[index]*1e3-0.25;
+    res[index*3+1] = SelectedEnergies[index+1]*1e3+0.25;
+    res[index*3+2] = countings_per_interval[index];
             
     // for now, no background is assumed
     /*
@@ -205,11 +218,67 @@ void Detector::setEnergyBins(double *ebins, size_t binsNumber) {
 }
 
 void Detector::printEnergyBins() const {
-    check();
-    printf("\nenergy unit: MeV\n");
+    checkene();
+    printf("\nbin central energy, unit: MeV\n");
     for(size_t k = 0; k != NumberEnergies; ++k) {
-        printf("%.3lf ", SelectedEnergies[k]*1e3);
+        printf("%-8.3lf ", SelectedEnergies[k]*1e3);
+        if((k+1) % 5 == 0) printf("\n");
     }
     printf("\n");
 }
 
+void Detector::glbinit() {
+
+    if(init_toggle == 0) {
+
+    /* Initialize libglobes */
+    char name[10]; strcpy(name, "snowglb");
+    glbInit(name); // this function will invoke glb_init(char*) and set glbSetChannelPrintFunction
+                   // passed by glb_builtin_channel_printf
+                  
+    /* Initialize experiment NFstandard.glb */
+    // must be called only once!!!! too much time spent in this call
+    char glbfilename_tmp[64]; 
+    strcpy(glbfilename_tmp, this->glb_file_name);
+    // this return -1 not 0
+    glbInitExperiment(glbfilename_tmp,&glb_experiment_list[0],&glb_num_of_exps);
+    true_values = glbAllocParams();
+    test_values = glbAllocParams();
+
+    glbDefineParams(true_values,theta12,theta13,theta23,deltacp,sdm,ldm);
+    glbSetDensityParams(true_values,1.0,GLB_ALL);
+    glbDefineParams(test_values,theta12,theta13,theta23,deltacp,sdm,ldm);  
+    glbSetDensityParams(test_values,1.0,GLB_ALL);
+
+    /* The simulated data are computed */
+    glbSetOscillationParameters(true_values);
+    glbSetRates();
+
+    init_toggle = 1;
+
+    }
+
+}
+
+void Detector::glbreload() {
+
+    checkinit();
+    // clear Globe settings
+    glbFreeParams(true_values);
+    glbFreeParams(test_values);
+    glbClearExperimentList();
+
+    // reload new experiment
+    char glbfilename_tmp[64]; 
+    strcpy(glbfilename_tmp, this->glb_file_name);
+    glbInitExperiment(glbfilename_tmp,&glb_experiment_list[0],&glb_num_of_exps);
+    true_values = glbAllocParams();
+    test_values = glbAllocParams();
+    glbDefineParams(true_values,theta12,theta13,theta23,deltacp,sdm,ldm);
+    glbSetDensityParams(true_values,1.0,GLB_ALL);
+    glbDefineParams(test_values,theta12,theta13,theta23,deltacp,sdm,ldm);  
+    glbSetDensityParams(test_values,1.0,GLB_ALL);
+    glbSetOscillationParameters(true_values);
+    glbSetRates();
+
+}

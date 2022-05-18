@@ -5,7 +5,7 @@ globesconf= $(exec_prefix)/bin/globes-config
 
 CC = g++
 CFLAGS = -Wall
-local_CFLAGS = -O4
+local_CFLAGS = -g -O4
 debug_CFLAGS = -DDEBUG
 shared_CFLAGS = -fPIC -shared -Wl,-soname,
 
@@ -16,7 +16,8 @@ local_LTLDFLAGS:=$(shell $(globesconf) --ltlibs)
 
 
 BIN = supernova 
-OBJ = main.o detector.o pinched.o
+OBJ = main.o detector.o pinched.o 
+SONAME = libsnowflux.so.1.0.0
 SOBJ = libsnowflux.so
 
 all: $(BIN)
@@ -30,7 +31,7 @@ supernova: main.o detector.o pinched.o
 	$(CC) $(debug_CFLAGS) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
 
 shared:
-	$(CC) $(local_CFLAGS) $(shared_CFLAGS)$(SOBJ) -o $(SOBJ) *.cpp $(INCFLAGS) $(local_LDFLAGS)
+	$(CC) $(debug_CFLAGS) $(CFLAGS) $(local_CFLAGS) $(shared_CFLAGS)$(SONAME) -o $(SOBJ) *.cpp $(INCFLAGS) $(local_LDFLAGS)
 
 install:
 	cp $(BIN) ../
