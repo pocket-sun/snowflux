@@ -9,7 +9,7 @@ using namespace std;
 
 extern "C" {
     Detector expr(HyperK);
-    double *rateGen(double paras[], double dist);
+    void rateGen(double paras[], double dist, double[]);
     void init();
 }
 
@@ -19,7 +19,7 @@ void init() {
 
 }
 
-double *rateGen(double paras[], double dist) {
+void rateGen(double paras[], double dist, double res[]) {
 
 //    double alpha[3] = {2.5, 2.5, 2.5};
 //    double E0[3] = {9.5, 12, 15.6}; // MeV
@@ -32,18 +32,15 @@ double *rateGen(double paras[], double dist) {
     }
     expr.setEnergyBins(selected_energies, 15);
     
-    double res[45];
     double alpha[3] = {paras[0], paras[1], paras[2]};
     double E0[3] = {paras[3], paras[4], paras[5]};
     double L[3] = {paras[6]*1e52, paras[7]*1e52, paras[8]*1e52};
     if(GarchingFluence(alpha, E0, L, dist) == 0) {
         expr.glbreload();
-        expr.generateRates(res, 42);
+        expr.generateRates(res, 42); // 14*3
     }
-
-    return NULL;
-
 }
+
 
 int main() {
                   
