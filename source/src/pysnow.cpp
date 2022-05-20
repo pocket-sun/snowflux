@@ -28,7 +28,7 @@ void init_two_exps() {
         // 5MeV~50MeV, 10bins
         hk_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
         hkibd_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
-        hkes_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
+        hkes_energies[i] = 5e-3 + (35e-3*i)/(NEHK-1);
     }
     for(size_t i = 0; i != NEDUNE; ++i) {
         // 6MeV~60MeV, 10bins

@@ -6,13 +6,12 @@ globesconf= $(exec_prefix)/bin/globes-config
 CC = g++
 CFLAGS = -Wall
 local_CFLAGS = -g -O4
-debug_CFLAGS = -DDEBUG -DERROR
+debug_CFLAGS = -DNODEBUG -DNOERROR
 shared_CFLAGS = -fPIC -shared -Wl,-soname,
 
 INCFLAGS:=$(shell $(globesconf) --include)
 local_LDFLAGS:=$(shell $(globesconf) --libs)
 local_LTLDFLAGS:=$(shell $(globesconf) --ltlibs)
-
 
 
 BIN = supernova 

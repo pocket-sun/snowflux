@@ -5,7 +5,7 @@
 #include "pySNvC.h"
 
 enum { 
-    NBinsRes = 20
+    NBinsRes = 10
 };
 
 void getSpec(double (*fun)(float,float,fluxpara), float (*spec)[2], float Eth, 
