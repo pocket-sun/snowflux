@@ -96,14 +96,18 @@ void Detector::getChainFile() {
     fclose(fp_chans);
 }
 
+// res[] used to store rates between energy interval central points
+// so res_size should fit with NumberEnergies-1
 void Detector::generateRates(double res[], size_t res_size) { 
 
     checkinit();
     checkene();
-    if(res_size != 3*(NumberEnergies-1)) {
+#ifdef ERROR
+    if(res_size != NumberEnergies-1) {
         fprintf(stderr, "res size error");
         exit(-9);
     }
+#endif
     size_t index;
   
     double energy, countings; // GeV, numbers/0.5MeV
@@ -137,6 +141,7 @@ void Detector::generateRates(double res[], size_t res_size) {
         fclose(fmem);
         free(membuf);
     }
+#ifdef ERROR
     index = 0;
     for(const auto &k: mcountings_per_interval) {
         //printf("%lf, %lf\n", k.first, k.second);
@@ -150,6 +155,7 @@ void Detector::generateRates(double res[], size_t res_size) {
         fprintf(stderr, "default energies error");
         exit(-12);
     }
+#endif
     index = 0;
     // include [a0, a1), [a1, a2), ..., [an-1, an]
     // ai itself is interval
@@ -184,14 +190,9 @@ void Detector::generateRates(double res[], size_t res_size) {
             SelectedEnergies[index]*1e3-0.25, SelectedEnergies[index+1]*1e3+0.25,
                 countings_per_interval[index]);
 #endif
-    for(index = 0; index != NumberEnergies-2; ++index) {
-        res[index*3] = SelectedEnergies[index]*1e3-0.25;
-        res[index*3+1] = SelectedEnergies[index+1]*1e3-0.25;
-        res[index*3+2] = countings_per_interval[index];
+    for(index = 0; index != NumberEnergies-1; ++index) {
+        res[index] = countings_per_interval[index];
     }
-    res[index*3] = SelectedEnergies[index]*1e3-0.25;
-    res[index*3+1] = SelectedEnergies[index+1]*1e3+0.25;
-    res[index*3+2] = countings_per_interval[index];
             
     // for now, no background is assumed
     /*
@@ -205,6 +206,7 @@ void Detector::generateRates(double res[], size_t res_size) {
     */
 }
 
+// GeV
 void Detector::setEnergyBins(double *ebins, size_t binsNumber) {
     SelectedEnergies = ebins;
     NumberEnergies = binsNumber;
@@ -220,12 +222,24 @@ void Detector::setEnergyBins(double *ebins, size_t binsNumber) {
 
 void Detector::printEnergyBins() const {
     checkene();
-    printf("\nbin central energy, unit: MeV\n");
+    printf("\nbin central energies, unit: MeV\n");
     for(size_t k = 0; k != NumberEnergies; ++k) {
         printf("%-8.3lf ", SelectedEnergies[k]*1e3);
         if((k+1) % 5 == 0) printf("\n");
     }
     printf("\n");
+}
+
+void Detector::printEnergyIntervals() const {
+    checkene();
+    size_t index;
+    printf("\nenergy intervals, unit: MeV\n");
+    for(index = 0; index != NumberEnergies-2; ++index) {
+        printf("[%-8.5lf, %-8.5lf]\n", SelectedEnergies[index]*1e3-0.25
+            , SelectedEnergies[index+1]*1e3-0.25);
+    }
+    printf("[%-8.5lf, %-8.5lf]\n", SelectedEnergies[index]*1e3-0.25
+        , SelectedEnergies[index+1]*1e3+0.25);
 }
 
 void Detector::glbinit() {
@@ -261,8 +275,10 @@ void Detector::glbinit() {
 
 }
 
-// every time load new flux or modify experimental parameters
-// glbreload() should be called
+// every time load new flux, or modify experimental parameters
+// ,or change glbfile, glbreload() should be called
+// in principle, before the call to generate event rates, glbreload()
+// should be invoked
 void Detector::glbreload() {
 
     checkinit();

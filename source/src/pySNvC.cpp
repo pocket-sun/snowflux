@@ -12,15 +12,13 @@
 #include <iomanip>
 #include <time.h>
 #include "detectors.hpp"
+#include "pySNvC.h"
+
 using namespace std;
 using std::setw;
 
-extern "C" {
-void pygetSpec(double inputs[], double outputs[]);
-}
-void getSpec(double (*fun)(float,float,fluxpara), float (*spec)[2], float Eth, float binStep, int nbin, fluxpara flux);
 
-int main()
+int resnova_test()
 {
     // spectral parameters
     float Eth = 0.5;
@@ -104,9 +102,8 @@ void getSpec(double (*fun)(float,float,fluxpara), float (*spec)[2], float Eth, f
 // interface to ctypes
 #define pyEth 0.5
 #define pybinStep 1
-#define pynbin 20
 static float pyspec[50][2];
-// length(inputs)=9, length(outputs)=pynbin
+// length(inputs)=9, length(outputs)=NBinsRes
 // which should be guarteed by user and no safty check is warranted
 void pygetSpec(double inputs[], double outputs[]) {
 
@@ -123,8 +120,12 @@ void pygetSpec(double inputs[], double outputs[]) {
         f.vae[k] = inputs[3*k+1];
         f.vx[k] = inputs[3*k+2];
     }
-    getSpec(ResNovaCounts,pyspec,pyEth,pybinStep,pynbin,f);
-    for(size_t k = 0; k != pynbin; ++k) {
+    getSpec(ResNovaCounts,pyspec,pyEth,pybinStep,NBinsRes,f);
+    for(size_t k = 0; k != NBinsRes; ++k) {
         outputs[k] = pyspec[k][1];
+#ifdef DEBUG
+        cout << pyspec[k][0] << "    " <<  outputs[k] << endl;
+#endif
+        
     }
 }

@@ -17,13 +17,17 @@ class Detector {
 public:
     // copy control
     Detector()=delete;
+    Detector(const Detector&)=delete;
+    Detector &operator=(const Detector&)=delete;
     Detector(ExpName DetectorName);
 
     // method
-    void setEnergyBins(double ebins[], size_t binsNumber);
+    void setEnergyBins(double ebins[], size_t binsNumber); // GeV
     void generateRates(double res[], size_t res_size);
     void printEnergyBins() const;
+    void printEnergyIntervals() const;
     char *getGlbFileName() { return glb_file_name; };
+    size_t getNumberEnergies() { return NumberEnergies; };
     void glbreload();
     void glbinit();
 
@@ -257,7 +261,7 @@ private:
 98.2600e-3,
 98.7600e-3,
 99.2500e-3,
-99.7500e-3};
+99.7500e-3}; // GeV
 
 };
 

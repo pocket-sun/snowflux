@@ -1,3 +1,5 @@
+#ifndef CONSTANTS
+#define CONSTANTS
 /* ------------------------------------------------
    Define constants.
    ------------------------------------------------*/
@@ -35,3 +37,4 @@ double integral(double (*fun)(double), double L, double H, long n)
     return sum;
 }
 ----------------------------------------------------------------*/
+#endif
