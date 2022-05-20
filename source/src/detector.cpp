@@ -40,6 +40,9 @@ Detector::Detector(ExpName DetectorName) {
     // glb file name
     strcpy(glbfilename, this->detconfigname);
     strcat(glbfilename, this->channelname);
+    char nchannel[4];
+    sprintf(nchannel, "%lu", this->NumberChannels);
+    strcat(glbfilename, nchannel);
     strcat(glbfilename, ".glb");
     // system call
     strcpy(systemcall, "cd snowglobe && ./supernova.pl ");

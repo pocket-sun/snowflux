@@ -2,7 +2,7 @@
 #define PYSNOW
 
 #include "detector.h"
-#include "pysnow.h"
+#include "pysnow.h" 
 
 enum { 
     NEHK = 11, // NumberEnergies
