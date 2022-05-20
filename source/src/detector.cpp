@@ -8,7 +8,8 @@
 
 using namespace std;
 
-constexpr double Detector::default_energies[200];
+constexpr double Detector::default_energies[200]; // declaration
+bool Detector::init_toggle = 0; // definition
 
 Detector::Detector(ExpName DetectorName) {
 
@@ -260,6 +261,8 @@ void Detector::glbinit() {
 
 }
 
+// every time load new flux or modify experimental parameters
+// glbreload() should be called
 void Detector::glbreload() {
 
     checkinit();

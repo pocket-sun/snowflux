@@ -51,13 +51,13 @@ private:
     /* Initialize parameter vector(s) */
     glb_params true_values;
     glb_params test_values;
-    bool init_toggle = 0;
+    static bool init_toggle; // declaration
 
     char glb_file_name[64], detconfigname[64], channelname[64];
     int chan_num[MAXCHANS];
     int num_target_factors[MAXCHANS];
     char chan_name[MAXCHANS][64];
-    static constexpr double default_energies[200] = {
+    static constexpr double default_energies[200] = { // decl && initialization
 0.7488e-3,
 1.2460e-3,
 1.7440e-3,

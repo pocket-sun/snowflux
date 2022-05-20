@@ -6,7 +6,7 @@ globesconf= $(exec_prefix)/bin/globes-config
 CC = g++
 CFLAGS = -Wall
 local_CFLAGS = -g -O4
-debug_CFLAGS = -DNODEBUG
+debug_CFLAGS = -DDEBUG
 shared_CFLAGS = -fPIC -shared -Wl,-soname,
 
 INCFLAGS:=$(shell $(globesconf) --include)
@@ -16,16 +16,16 @@ local_LTLDFLAGS:=$(shell $(globesconf) --ltlibs)
 
 
 BIN = supernova 
-OBJ = main.o detector.o pinched.o 
-SONAME = libsnowflux.so.1.0.0
+OBJ = detector.o pinched.o pysnow.o main.o 
+SONAME = libsnowflux.so.1.1.0
 SOBJ = libsnowflux.so
 
 all: $(BIN)
 
 
 
-supernova: main.o detector.o pinched.o
-	$(CC) main.o detector.o pinched.o -o supernova  $(LDFLAGS) $(local_LDFLAGS)
+supernova: main.o detector.o pinched.o pysnow.o
+	$(CC) main.o detector.o pinched.o pysnow.o -o supernova  $(LDFLAGS) $(local_LDFLAGS)
 
 %.o : %.cpp
 	$(CC) $(debug_CFLAGS) $(CFLAGS) $(local_CFLAGS) -c $< $(INCFLAGS)
