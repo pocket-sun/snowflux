@@ -7,12 +7,18 @@
 enum { 
     NEHK = 11, // NumberEnergies
     NBinsHK = 10, // NumberEnergies-1
+    NEHKibd = 11, 
+    NBinsHKibd = 10,
+    NEHKes = 11,
+    NBinsHKes = 10,
     NEDUNE = 11,
     NBinsDUNE = 10
 };
 
 extern "C" {
     extern Detector expr_hk; // declaration
+    extern Detector expr_hkibd; // declaration
+    extern Detector expr_hkes; // declaration
     extern Detector expr_dune; // declaration
 }
 

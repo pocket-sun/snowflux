@@ -8,8 +8,12 @@
 
 #define MAXCHANS 32
 
+// to add an experiment
+// case in Detector(ExpName) in detector.h should be added as well
 enum ExpName {
     HyperK = 1024,
+    HyperKibd = 1025,
+    HyperKES = 1026,
     DUNE = 2049
 };
         
@@ -27,7 +31,7 @@ public:
     void printEnergyBins() const;
     void printEnergyIntervals() const;
     char *getGlbFileName() { return glb_file_name; };
-    size_t getNumberEnergies() { return NumberEnergies; };
+    size_t getNumberEnergies() const { return NumberEnergies; };
     void glbreload();
     void glbinit();
 

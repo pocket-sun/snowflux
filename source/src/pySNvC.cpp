@@ -123,9 +123,16 @@ void pygetSpec(double inputs[], double outputs[]) {
     getSpec(ResNovaCounts,pyspec,pyEth,pybinStep,NBinsRes,f);
     for(size_t k = 0; k != NBinsRes; ++k) {
         outputs[k] = pyspec[k][1];
-#ifdef DEBUG
-        cout << pyspec[k][0] << "    " <<  outputs[k] << endl;
-#endif
-        
     }
+#ifdef DEBUG
+    cout << "spectrum parameters:" << endl;
+    for(size_t k = 0; k != 9; ++k) {
+        cout << inputs[k] << "  ";
+    }
+    cout << endl;
+    cout << "spectrum:" << endl;
+    for(size_t k = 0; k != NBinsRes; ++k) {
+        cout << pyspec[k][0] << "    " <<  outputs[k] << endl;
+    }
+#endif
 }

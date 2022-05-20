@@ -22,6 +22,22 @@ Detector::Detector(ExpName DetectorName) {
             }
             this->NumberChannels = 7;
             break;
+        case HyperKibd:
+            strcpy(this->detconfigname, "wc100kt30prct");
+            strcpy(this->channelname, "water");
+            for(size_t k = 0; k != 1; ++k) {
+                this->SelectedChannels[k] = k;
+            }
+            this->NumberChannels = 1;
+            break;
+        case HyperKES:
+            strcpy(this->detconfigname, "wc100kt30prct");
+            strcpy(this->channelname, "water");
+            for(size_t k = 1; k != 7; ++k) {
+                this->SelectedChannels[k-1] = k;
+            }
+            this->NumberChannels = 6;
+            break;
         case DUNE:
             strcpy(this->detconfigname, "ar40kt");
             strcpy(this->channelname, "argon");
@@ -177,6 +193,7 @@ void Detector::generateRates(double res[], size_t res_size) {
 
 
 #ifdef DEBUG    
+    printf("%s:", glb_file_name);
     printf("\n------ original spectral -------\n");
     printf("Ev (MeV)                countings\n");
     for(auto &k: mcountings_per_interval) {

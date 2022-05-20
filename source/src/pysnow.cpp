@@ -10,29 +10,38 @@ using namespace std;
 
 extern "C" {
     Detector expr_hk(HyperK); // definition
+    Detector expr_hkibd(HyperKibd); // definition
+    Detector expr_hkes(HyperKES); // definition
     Detector expr_dune(DUNE); // definition
 }
 
 // energy bin array should be entailed program lifetime
 double hk_energies[NEHK], dune_energies[NEDUNE]; // GeV
+double hkibd_energies[NEHKibd], hkes_energies[NEHKes];
 void init_two_exps() { 
-
 #ifdef DEBUG
     cout << "initialization finished" << endl;
 #endif
+
     // energy settings
     for(size_t i = 0; i != NEHK; ++i) {
         // 5MeV~50MeV, 10bins
         hk_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
+        hkibd_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
+        hkes_energies[i] = 5e-3 + (45e-3*i)/(NEHK-1);
     }
     for(size_t i = 0; i != NEDUNE; ++i) {
         // 6MeV~60MeV, 10bins
         dune_energies[i] = 6e-3 + (54e-3*i)/(NEDUNE-1);
     }
     expr_hk.setEnergyBins(hk_energies, NEHK);
+    expr_hkibd.setEnergyBins(hkibd_energies, NEHKibd);
+    expr_hkes.setEnergyBins(hkes_energies, NEHKes);
     expr_dune.setEnergyBins(dune_energies, NEDUNE);
 
     // globe intialization 
+    expr_hkibd.glbinit();
+    expr_hkes.glbinit();
     expr_hk.glbinit(); 
     expr_dune.glbinit(); 
 
@@ -54,6 +63,13 @@ void rateGen(Detector &expr, double paras[], double dist, double res[], size_t r
             expr.getGlbFileName(), res_sz, expr.getNumberEnergies()-1);
         exit(-3);
     }
+#endif
+#ifdef DEBUG
+    printf("spectrum parameters:\n");
+    for(size_t k = 0; k != 9; ++k) {
+        printf("%-7.2lf", paras[k]);
+    }
+    printf("\n");
 #endif
 
     double alpha[3] = {paras[0], paras[1], paras[2]};

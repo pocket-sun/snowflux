@@ -22,16 +22,20 @@ double log_prior(double x[], size_t x_size=9) {
 }
 
 
-static double lambHK[NBinsHK]; // output rates per bin
+//static double lambHK[NBinsHK]; // output rates per bin
+static double lambHKibd[NBinsHKibd];
+static double lambHKes[NBinsHKes]; 
 static double lambDUNE[NBinsDUNE]; 
 static double lambRes[NBinsRes];
 double log_likelihood(double x[]) {
 
-    static const double N_HK[NBinsHK] = {0.};
+//    static const double N_HK[NBinsHK] = {0.};
+    static const double N_HKibd[NBinsHKibd] = {0.};
+    static const double N_HKes[NBinsHKes] = {0.};
     static const double N_DUNE[NBinsDUNE] = {0.};
     static const double N_RESNOV[NBinsRes] = {0.};
     
-    size_t x_size = 9;
+    static const size_t x_size = 9;
     double res = log_prior(x);
     if(res < -1e149) return -1e150;
 
@@ -40,9 +44,17 @@ double log_likelihood(double x[]) {
     }
     
     // HyperK
-    rateGen(expr_hk, x, 10., lambHK, NBinsHK);
-    for(size_t i = 0; i != NBinsHK-1; ++i) {
-        res += -lambHK[i] + N_HK[i] * log(lambHK[i]);
+//    rateGen(expr_hk, x, 10., lambHK, NBinsHK);
+//    for(size_t i = 0; i != NBinsHK-1; ++i) {
+//        res += -lambHK[i] + N_HK[i] * log(lambHK[i]);
+//    }
+    rateGen(expr_hkibd, x, 10., lambHKibd, NBinsHKibd);
+    for(size_t i = 0; i != NBinsHKibd-1; ++i) {
+        res += -lambHKibd[i] + N_HKibd[i] * log(lambHKibd[i]);
+    }
+    rateGen(expr_hkes, x, 10., lambHKes, NBinsHKes);
+    for(size_t i = 0; i != NBinsHKes-1; ++i) {
+        res += -lambHKes[i] + N_HKes[i] * log(lambHKes[i]);
     }
 
     // DUNE
