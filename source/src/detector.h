@@ -33,7 +33,6 @@ public:
             // clear Globe settings
             glbFreeParams(true_values);
             glbFreeParams(test_values);
-            glbClearExperimentList();
         }
     }
 

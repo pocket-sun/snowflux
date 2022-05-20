@@ -1,0 +1,8 @@
+Recommended compilation:
+g++ -O2 SNvC.cpp
+
+The main approach to adjust the speed of computation 
+lies in line 54 in detectors.hpp.
+
+Caution: The nucleus data for Xeon must get updated 
+         if you use the Darwin detector.
