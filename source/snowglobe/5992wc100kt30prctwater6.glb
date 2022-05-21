@@ -26,26 +26,26 @@ $sampling_max = 	0.100     /* GeV */
 /* ########  Flux data ######## */
 
 nuflux(#supernova_flux)<
-        @flux_file=  "snowglobe/fluxes/pinched_0.dat"
+        @flux_file=  "./snowglobe/fluxes/5992.dat"
 	@time =       1                  /* 1 file unit (1 supernova)*/
 	@power =      1                    
 	@norm =       0.0677
 >
-include "snowglobe/smear/smear_ibd_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nue_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nuebar_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_numu_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_numubar_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nutau_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nutaubar_e_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nue_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nuebar_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_nue_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_nuebar_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_numu_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_numubar_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_nutau_O16_wc100kt30prct.dat"
-include "snowglobe/smear/smear_nc_nutaubar_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_ibd_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nue_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nuebar_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_numu_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_numubar_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nutau_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nutaubar_e_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nue_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nuebar_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_nue_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_nuebar_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_numu_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_numubar_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_nutau_O16_wc100kt30prct.dat"
+include "./snowglobe/smear/smear_nc_nutaubar_O16_wc100kt30prct.dat"
 
 /* ####### Detector settings ####### */
 
@@ -55,49 +55,49 @@ $target_mass=      11.11000000
  /******** Cross-sections *********/
  
 cross(#ibd)<
-      @cross_file= "snowglobe/xscns/xs_ibd.dat"
+      @cross_file= "./snowglobe/xscns/xs_ibd.dat"
 >
 cross(#nue_e)<
-      @cross_file= "snowglobe/xscns/xs_nue_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nue_e.dat"
 >
 cross(#nuebar_e)<
-      @cross_file= "snowglobe/xscns/xs_nuebar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nuebar_e.dat"
 >
 cross(#numu_e)<
-      @cross_file= "snowglobe/xscns/xs_numu_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_numu_e.dat"
 >
 cross(#numubar_e)<
-      @cross_file= "snowglobe/xscns/xs_numubar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_numubar_e.dat"
 >
 cross(#nutau_e)<
-      @cross_file= "snowglobe/xscns/xs_nutau_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nutau_e.dat"
 >
 cross(#nutaubar_e)<
-      @cross_file= "snowglobe/xscns/xs_nutaubar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nutaubar_e.dat"
 >
 cross(#nue_O16)<
-      @cross_file= "snowglobe/xscns/xs_nue_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nue_O16.dat"
 >
 cross(#nuebar_O16)<
-      @cross_file= "snowglobe/xscns/xs_nuebar_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nuebar_O16.dat"
 >
 cross(#nc_nue_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_nue_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nue_O16.dat"
 >
 cross(#nc_nuebar_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_nuebar_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nuebar_O16.dat"
 >
 cross(#nc_numu_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_numu_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_numu_O16.dat"
 >
 cross(#nc_numubar_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_numubar_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_numubar_O16.dat"
 >
 cross(#nc_nutau_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_nutau_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nutau_O16.dat"
 >
 cross(#nc_nutaubar_O16)<
-      @cross_file= "snowglobe/xscns/xs_nc_nutaubar_O16.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nutaubar_O16.dat"
 >
 
  /******** Channels *********/

@@ -30,8 +30,9 @@ public:
     void generateRates(double res[], size_t res_size);
     void printEnergyBins() const;
     void printEnergyIntervals() const;
-    char *getGlbFileName() { return glb_file_name; };
-    size_t getNumberEnergies() const { return NumberEnergies; };
+    char *getGlbFileName() { return glb_file_name; }
+    size_t getNumberEnergies() const { return NumberEnergies; }
+    unsigned getFnum() const;
     void glbreload();
     void glbinit();
 
@@ -48,6 +49,7 @@ private:
     void checkinit() const;
     void checkene() const;
     void getChainFile();
+    void createGLBFile(unsigned);
 
     double *SelectedEnergies = NULL;// GeV
     size_t NumberEnergies = 0;
@@ -61,7 +63,7 @@ private:
     glb_params test_values;
     static bool init_toggle; // declaration
 
-    char glb_file_name[64], detconfigname[64], channelname[64];
+    char glb_file_name[128], detconfigname[64], channelname[64];
     int chan_num[MAXCHANS];
     int num_target_factors[MAXCHANS];
     char chan_name[MAXCHANS][64];

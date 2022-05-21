@@ -3,10 +3,12 @@
 # e.g.  ./supernova.pl water wc100kt30prct
 
 # flux will fixed at ./fluxes/pinched_0.dat
-$fluxname = "pinched_0";
+#$fluxname = "pinched_0";
+$fluxname = $ARGV[3];
 $channame = $ARGV[0];
 $expt_config = $ARGV[1];
 $glbfilename = $ARGV[2];
+$ppath = $ENV{'SNOWGLOBEPATH'};
 
 
 $chanfilename = "channels/channels_".$channame.".dat";
@@ -90,7 +92,7 @@ open(FLUX,"glb/flux.glb");
 while(<FLUX>) {
 # Replace the flux file name with the input argument
     if (/flux_file/) {
-	$_ = "        \@flux_file=  \"snowglobe/".$fluxfilename."\"\n";
+	$_ = "        \@flux_file=  \"".$ppath."snowglobe/".$fluxfilename."\"\n";
     }
     print GLOBESFILE $_;
 }
@@ -119,7 +121,7 @@ while(<CHANFILE>) {
 
     $chan_name = $stuff[0];
 
-    $output_line = "include \"snowglobe/smear/smear_".$chan_name."_".$expt_config.".dat\"\n";
+    $output_line = "include \"".$ppath."snowglobe/smear/smear_".$chan_name."_".$expt_config.".dat\"\n";
 
 
     print GLOBESFILE $output_line;
@@ -189,7 +191,7 @@ if (-e $bg_filename) {
 }
 
 if ($do_bg == 1) {
-    $output_line = "include \"snowglobe/smear/smear_".$bg_chan_name."_".$expt_config.".dat\"\n";
+    $output_line = "include \"".$ppath."snowglobe/smear/smear_".$bg_chan_name."_".$expt_config.".dat\"\n";
     print GLOBESFILE $output_line; 
 }
 
@@ -230,7 +232,7 @@ while(<CHANFILE>) {
     $output_line = "cross(\#".$chan_name.")<\n";
     print GLOBESFILE $output_line;
 
-    $output_line = "      \@cross_file= \"snowglobe/xscns/xs_".$chan_name.".dat\"\n";
+    $output_line = "      \@cross_file= \"".$ppath."snowglobe/xscns/xs_".$chan_name.".dat\"\n";
 #    print $output_line;
     print GLOBESFILE $output_line;
 
@@ -248,7 +250,7 @@ if ($do_bg == 1) {
     $output_line = "cross(\#".$bg_chan_name.")<\n";
     print GLOBESFILE $output_line;
 
-    $output_line = "      \@cross_file= \"snowglobe/xscns/xs_zero.dat\"\n";
+    $output_line = "      \@cross_file= \"".$ppath."snowglobe/xscns/xs_zero.dat\"\n";
 #    print $output_line;
     print GLOBESFILE $output_line;
     

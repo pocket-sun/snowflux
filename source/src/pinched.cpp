@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iomanip>
 #include <string> 
@@ -135,7 +136,7 @@ static double phi(double E_nu, double E_nu0, double alpha) {
 alpha_nu_e  alpha_nubar_e  alpha_nu_x  <E>_nu_e  <E>_nubar_e  <E>_nu_x  L_nu_e  L_nubar_e  L_nu_x
 units: 1, MeV, erg
 */
-int GarchingFluence(double alpha[], double E0_0[], double L_0[], double dist){
+int GarchingFluence(double alpha[], double E0_0[], double L_0[], double dist, unsigned flux_num){
 
     const double kpc2cm=3.08568025e21; // [dist]=cm, 1kpc
     const double gevpererg = 624.15; // 1 erg = 624.151 GeV
@@ -160,7 +161,18 @@ int GarchingFluence(double alpha[], double E0_0[], double L_0[], double dist){
 
 	// create filename for output file and open respective file 
 	//		string filename="pinched_";
-	outfile.open("./snowglobe/fluxes/pinched_0.dat"); // out and trunc implicit
+    char *ppath = getenv("SNOWGLOBEPATH");
+    if(ppath==NULL) {fprintf(stderr, "SNOWGLOBEPATH should be set"); exit(-4);}
+    char fluxpath[64];
+    char sflux_num[64]; sprintf(sflux_num, "%u", flux_num);
+    strcpy(fluxpath, ppath);
+    strcat(fluxpath, "snowglobe/fluxes/");
+    strcat(fluxpath, sflux_num);
+    strcat(fluxpath, ".dat");
+#ifdef DEBUG
+    cout << "flux:" << flux_num << endl;
+#endif
+	outfile.open(fluxpath); // out and trunc implicit
 
 	if (!outfile.good()) {
         cerr << "fail to open pinched_0.dat" << endl;

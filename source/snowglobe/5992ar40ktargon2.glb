@@ -26,25 +26,25 @@ $sampling_max = 	0.100     /* GeV */
 /* ########  Flux data ######## */
 
 nuflux(#supernova_flux)<
-        @flux_file=  "snowglobe/fluxes/pinched_0.dat"
+        @flux_file=  "./snowglobe/fluxes/5992.dat"
 	@time =       1                  /* 1 file unit (1 supernova)*/
 	@power =      1                    
 	@norm =       0.0677
 >
-include "snowglobe/smear/smear_nue_e_ar40kt.dat"
-include "snowglobe/smear/smear_nuebar_e_ar40kt.dat"
-include "snowglobe/smear/smear_numu_e_ar40kt.dat"
-include "snowglobe/smear/smear_numubar_e_ar40kt.dat"
-include "snowglobe/smear/smear_nutau_e_ar40kt.dat"
-include "snowglobe/smear/smear_nutaubar_e_ar40kt.dat"
-include "snowglobe/smear/smear_nue_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nuebar_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_nue_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_numu_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_nutau_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_nuebar_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_numubar_Ar40_ar40kt.dat"
-include "snowglobe/smear/smear_nc_nutaubar_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nue_e_ar40kt.dat"
+include "./snowglobe/smear/smear_nuebar_e_ar40kt.dat"
+include "./snowglobe/smear/smear_numu_e_ar40kt.dat"
+include "./snowglobe/smear/smear_numubar_e_ar40kt.dat"
+include "./snowglobe/smear/smear_nutau_e_ar40kt.dat"
+include "./snowglobe/smear/smear_nutaubar_e_ar40kt.dat"
+include "./snowglobe/smear/smear_nue_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nuebar_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_nue_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_numu_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_nutau_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_nuebar_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_numubar_Ar40_ar40kt.dat"
+include "./snowglobe/smear/smear_nc_nutaubar_Ar40_ar40kt.dat"
 
 /* ####### Detector settings ####### */
 
@@ -54,46 +54,46 @@ $target_mass=       1.00000000
  /******** Cross-sections *********/
  
 cross(#nue_e)<
-      @cross_file= "snowglobe/xscns/xs_nue_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nue_e.dat"
 >
 cross(#nuebar_e)<
-      @cross_file= "snowglobe/xscns/xs_nuebar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nuebar_e.dat"
 >
 cross(#numu_e)<
-      @cross_file= "snowglobe/xscns/xs_numu_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_numu_e.dat"
 >
 cross(#numubar_e)<
-      @cross_file= "snowglobe/xscns/xs_numubar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_numubar_e.dat"
 >
 cross(#nutau_e)<
-      @cross_file= "snowglobe/xscns/xs_nutau_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nutau_e.dat"
 >
 cross(#nutaubar_e)<
-      @cross_file= "snowglobe/xscns/xs_nutaubar_e.dat"
+      @cross_file= "./snowglobe/xscns/xs_nutaubar_e.dat"
 >
 cross(#nue_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nue_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nue_Ar40.dat"
 >
 cross(#nuebar_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nuebar_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nuebar_Ar40.dat"
 >
 cross(#nc_nue_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_nue_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nue_Ar40.dat"
 >
 cross(#nc_numu_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_numu_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_numu_Ar40.dat"
 >
 cross(#nc_nutau_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_nutau_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nutau_Ar40.dat"
 >
 cross(#nc_nuebar_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_nuebar_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nuebar_Ar40.dat"
 >
 cross(#nc_numubar_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_numubar_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_numubar_Ar40.dat"
 >
 cross(#nc_nutaubar_Ar40)<
-      @cross_file= "snowglobe/xscns/xs_nc_nutaubar_Ar40.dat"
+      @cross_file= "./snowglobe/xscns/xs_nc_nutaubar_Ar40.dat"
 >
 
  /******** Channels *********/

@@ -1,15 +1,20 @@
 #include "detector.h"
+#include "pinched.h"
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
 #include <map>
 #include <globes/globes.h>   /* GLoBES library */
+#include <sys/types.h>
+#include <unistd.h>
 
 using namespace std;
 
 constexpr double Detector::default_energies[200]; // declaration
 bool Detector::init_toggle = 0; // definition
+
 
 Detector::Detector(ExpName DetectorName) {
 
@@ -52,31 +57,51 @@ Detector::Detector(ExpName DetectorName) {
             break;
     }
 
+    double alpha[3] = {2.5, 2.5, 2.5};
+    double E0[3] = {9.5, 12, 15.6}; // MeV
+    double L[3] = {5e52, 5e52, 5e52}; // erg
+    double dist = 10.; // kpc
+    GarchingFluence(alpha, E0, L, dist, getFnum());
+    createGLBFile(getFnum());
+    getChainFile();
+
+}
+
+void Detector::createGLBFile(unsigned flux_num) {
+
+    char sflux_num[64]; sprintf(sflux_num, "%u", flux_num);
     char systemcall[256], glbfilename[64];
     // glb file name
-    strcpy(glbfilename, this->detconfigname);
+    strcpy(glbfilename, sflux_num);
+    strcat(glbfilename, this->detconfigname);
     strcat(glbfilename, this->channelname);
     char nchannel[4];
     sprintf(nchannel, "%lu", this->NumberChannels);
     strcat(glbfilename, nchannel);
     strcat(glbfilename, ".glb");
     // system call
-    strcpy(systemcall, "cd snowglobe && ./supernova.pl ");
+    char *ppath;
+    ppath = getenv("SNOWGLOBEPATH"); // "/" should be included in
+    if(ppath == NULL) {fprintf(stderr, "SNOWGLOBEPATH should be set"); exit(-4);}
+    strcpy(systemcall, "cd ");
+    strcat(systemcall, ppath);
+    strcat(systemcall, "snowglobe && ./supernova.pl ");
     strcat(systemcall, this->channelname);
     strcat(systemcall, " ");
     strcat(systemcall, this->detconfigname);
     strcat(systemcall, " ");
     strcat(systemcall, glbfilename);
+    strcat(systemcall, " ");
+    strcat(systemcall, sflux_num);
     strcat(systemcall, " && cd ..");
     if(system(systemcall) != 0) {
         fprintf(stderr, "fail to invoke supernova.pl");
         exit(-5);
     } else {
-        strcpy(this->glb_file_name, "./snowglobe/");
+        strcpy(this->glb_file_name, ppath);
+        strcat(this->glb_file_name, "snowglobe/");
         strcat(this->glb_file_name, glbfilename);
     }
-
-    getChainFile();
 
 }
 
@@ -84,7 +109,11 @@ void Detector::getChainFile() {
 
     char channel_file_name[128];
     /* Read the channels to process from the file */
-    strcpy(channel_file_name, "./snowglobe/channels/channels_");
+    char *ppath;
+    ppath = getenv("SNOWGLOBEPATH"); // no "/" should included in
+    if(ppath == NULL) {fprintf(stderr, "SNOWGLOBEPATH should be set"); exit(-4);}
+    strcpy(channel_file_name, ppath);
+    strcat(channel_file_name, "snowglobe/channels/channels_");
     strcat(channel_file_name, channelname);
     strcat(channel_file_name, ".dat");
 
@@ -320,4 +349,8 @@ void Detector::glbreload() {
     glbSetOscillationParameters(true_values);
     glbSetRates();
 
+}
+
+unsigned Detector::getFnum() const {
+    return getpid();
 }

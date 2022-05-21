@@ -75,7 +75,7 @@ void rateGen(Detector &expr, double paras[], double dist, double res[], size_t r
     double alpha[3] = {paras[0], paras[1], paras[2]};
     double E0[3] = {paras[3], paras[4], paras[5]};
     double L[3] = {paras[6]*1e52, paras[7]*1e52, paras[8]*1e52};
-    if(GarchingFluence(alpha, E0, L, dist) == 0) {
+    if(GarchingFluence(alpha, E0, L, dist, expr.getFnum()) == 0) {
         expr.glbreload();
         expr.generateRates(res, res_sz); // NumberEnergies-1
     }
@@ -102,7 +102,7 @@ int pytest(Detector &expr) {
     double tmp[14];
     for(size_t k = 0; k != 2; ++k) {
     E0[0] = E0[0] * (1.+k/4.);
-    if(GarchingFluence(alpha, E0, L, dist) == 0) {
+    if(GarchingFluence(alpha, E0, L, dist, expr.getFnum()) == 0) {
         expr.glbreload();
         expr.generateRates(tmp, 14);
         expr.printEnergyBins();
