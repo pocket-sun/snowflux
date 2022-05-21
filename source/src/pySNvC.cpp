@@ -116,9 +116,9 @@ void pygetSpec(double inputs[], double outputs[]) {
     static fluxpara f;     
     f.distance = 10;
     for(size_t k = 0; k != 3; ++k) {
-        f.ve[k] = inputs[3*k];
-        f.vae[k] = inputs[3*k+1];
-        f.vx[k] = inputs[3*k+2];
+        f.ve[2-k] = inputs[3*k];
+        f.vae[2-k] = inputs[3*k+1];
+        f.vx[2-k] = inputs[3*k+2];
     }
     getSpec(ResNovaCounts,pyspec,pyEth,pybinStep,NBinsRes,f);
     for(size_t k = 0; k != NBinsRes; ++k) {

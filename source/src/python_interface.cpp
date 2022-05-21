@@ -34,7 +34,7 @@ double log_likelihood(double x[]) {
     static const double N_HKibd[NBinsHKibd] = {1170,3632,4314,3428,2250,1354,693,347,160,91};
     static const double N_HKes[NBinsHKes] = {164,214,133,90,45,19,9,6,2,2};
     static const double N_DUNE[NBinsDUNE] = {341,496,390,211,110,42,19,9,5,1};
-    static const double N_RESNOV[NBinsRes] = {3304,1262,573,286,132,84,47,26,18,8};
+    static const double N_RESNOV[NBinsRes] = {6318,2780,1457,831,466,310,205,119,70,43};
     
     static const size_t x_size = 9;
     double res = log_prior(x);
