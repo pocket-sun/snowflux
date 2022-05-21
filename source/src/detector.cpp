@@ -13,43 +13,47 @@
 using namespace std;
 
 constexpr double Detector::default_energies[200]; // declaration
-bool Detector::init_toggle = 0; // definition
 
 
 Detector::Detector(ExpName DetectorName) {
 
+    size_t chcnt = 0;
     switch(DetectorName) {
         case HyperK:
-            strcpy(this->detconfigname, "wc100kt30prct");
+            strcpy(this->detconfigname, "hyperk");
             strcpy(this->channelname, "water");
             for(size_t k = 0; k != 7; ++k) {
+                ++chcnt;
                 this->SelectedChannels[k] = k;
             }
-            this->NumberChannels = 7;
+            this->NumberChannels = chcnt;
             break;
         case HyperKibd:
-            strcpy(this->detconfigname, "wc100kt30prct");
+            strcpy(this->detconfigname, "hyperk");
             strcpy(this->channelname, "water");
             for(size_t k = 0; k != 1; ++k) {
+                ++chcnt;
                 this->SelectedChannels[k] = k;
             }
-            this->NumberChannels = 1;
+            this->NumberChannels = chcnt;
             break;
         case HyperKES:
-            strcpy(this->detconfigname, "wc100kt30prct");
+            strcpy(this->detconfigname, "hyperk");
             strcpy(this->channelname, "water");
             for(size_t k = 1; k != 7; ++k) {
+                ++chcnt;
                 this->SelectedChannels[k-1] = k;
             }
-            this->NumberChannels = 6;
+            this->NumberChannels = chcnt;
             break;
         case DUNE:
             strcpy(this->detconfigname, "ar40kt");
             strcpy(this->channelname, "argon");
-            for(size_t k = 6; k != 8; ++k) {
-                this->SelectedChannels[k-6] = k;
+            for(size_t k = 0; k != 8; ++k) {
+                ++chcnt;
+                this->SelectedChannels[k] = k;
             }
-            this->NumberChannels = 2;
+            this->NumberChannels = chcnt;
             break;
         default:
             fprintf(stderr, "wrong detector name");
@@ -57,18 +61,15 @@ Detector::Detector(ExpName DetectorName) {
             break;
     }
 
-    double alpha[3] = {2.5, 2.5, 2.5};
-    double E0[3] = {9.5, 12, 15.6}; // MeV
-    double L[3] = {5e52, 5e52, 5e52}; // erg
-    double dist = 10.; // kpc
-    GarchingFluence(alpha, E0, L, dist, getFnum());
-    createGLBFile(getFnum());
     getChainFile();
 
 }
 
 void Detector::createGLBFile(unsigned flux_num) {
 
+#ifdef PARADEBUG
+    cout << "createGLB:" << getFnum() << endl;
+#endif
     char sflux_num[64]; sprintf(sflux_num, "%u", flux_num);
     char systemcall[256], glbfilename[64];
     // glb file name
@@ -295,6 +296,16 @@ void Detector::glbinit() {
 
     if(init_toggle == 0) {
 
+    static double alpha[3] = {2.5, 2.5, 2.5};
+    static double E0[3] = {9.5, 12, 15.6}; // MeV
+    static double L[3] = {5e52, 5e52, 5e52}; // erg
+    static double dist = 10.; // kpc
+#ifdef PARADEBUG
+    cout << "init:" << getFnum() << endl;
+#endif
+    GarchingFluence(alpha, E0, L, dist, getFnum());
+    createGLBFile(getFnum());
+
     /* Initialize libglobes */
     char name[10]; strcpy(name, "snowglb");
     glbInit(name); // this function will invoke glb_init(char*) and set glbSetChannelPrintFunction
@@ -339,6 +350,9 @@ void Detector::glbreload() {
     // reload new experiment
     char glbfilename_tmp[64]; 
     strcpy(glbfilename_tmp, this->glb_file_name);
+#ifdef PARADEBUG
+    cout << "reload:" << glb_file_name << endl;
+#endif
     glbInitExperiment(glbfilename_tmp,&glb_experiment_list[0],&glb_num_of_exps);
     true_values = glbAllocParams();
     test_values = glbAllocParams();

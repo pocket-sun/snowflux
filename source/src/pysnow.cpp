@@ -76,6 +76,9 @@ void rateGen(Detector &expr, double paras[], double dist, double res[], size_t r
     double E0[3] = {paras[3], paras[4], paras[5]};
     double L[3] = {paras[6]*1e52, paras[7]*1e52, paras[8]*1e52};
     if(GarchingFluence(alpha, E0, L, dist, expr.getFnum()) == 0) {
+#ifdef PARADEBUG
+        cout << "garch:" << expr.getFnum() << " " << expr.getGlbFileName() << endl;
+#endif
         expr.glbreload();
         expr.generateRates(res, res_sz); // NumberEnergies-1
     }

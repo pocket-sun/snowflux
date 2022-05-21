@@ -61,7 +61,7 @@ private:
     /* Initialize parameter vector(s) */
     glb_params true_values;
     glb_params test_values;
-    static bool init_toggle; // declaration
+    bool init_toggle = 0; // declaration
 
     char glb_file_name[128], detconfigname[64], channelname[64];
     int chan_num[MAXCHANS];
