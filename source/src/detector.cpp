@@ -301,7 +301,7 @@ void Detector::glbinit() {
     static double L[3] = {5e52, 5e52, 5e52}; // erg
     static double dist = 10.; // kpc
 #ifdef PARADEBUG
-    cout << "init:" << getFnum() << endl;
+    cout << "pid:" << getFnum() << ",init" << endl;
 #endif
     GarchingFluence(alpha, E0, L, dist, getFnum());
     createGLBFile(getFnum());
@@ -345,15 +345,26 @@ void Detector::glbreload() {
     // clear Globe settings
     glbFreeParams(true_values);
     glbFreeParams(test_values);
+#ifdef PARADEBUG
+    cout << "pid:" << getFnum() << ",befglb_num_of_exps:" << glb_num_of_exps << endl;
+#endif
     glbClearExperimentList();
+#ifdef PARADEBUG
+    cout << "pid:" << getFnum() << ",aftglb_num_of_exps:" << glb_num_of_exps << endl;
+#endif
 
     // reload new experiment
     char glbfilename_tmp[64]; 
     strcpy(glbfilename_tmp, this->glb_file_name);
 #ifdef PARADEBUG
-    cout << "reload:" << glb_file_name << endl;
+    cout << "pid:" << getFnum() << ",reload:" << glb_file_name << endl;
+    cout << "pid:" << getFnum() << ",addglb_experiment_list[0]:" << &glb_experiment_list[0] 
+         << ",addglb_num_of_exps:" << &glb_num_of_exps << endl;
 #endif
     glbInitExperiment(glbfilename_tmp,&glb_experiment_list[0],&glb_num_of_exps);
+#ifdef PARADEBUG
+    cout << "pid:" << getFnum() << ",aftiniglb_num_of_exps:" << glb_num_of_exps << endl;
+#endif
     true_values = glbAllocParams();
     test_values = glbAllocParams();
     glbDefineParams(true_values,theta12,theta13,theta23,deltacp,sdm,ldm);

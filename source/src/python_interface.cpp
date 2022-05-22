@@ -8,12 +8,26 @@ extern "C" {
     double log_likelihood(double x[]);
 }
 
+#ifdef DEBUG
+void myprt(const double *a, const char* info, size_t asz=10) {
+    printf("%s:\n", info);
+    for(size_t k = 0; k != asz; ++k) {
+        printf("%7.2lf  ", a[k]);
+    }
+    printf("\n");
+}
+#endif
+
 double log_prior(double x[], size_t x_size=9) {
     static double default_paras[] = {2.5, 2.5, 2.5,
                                      9.5, 12., 15.6, 
                                      5.,  5.,  5.};
     static double ratio[] = {.33333333, 2.};
-    for(size_t i = 0; i != x_size; ++i) {
+    for(size_t i = 0; i != 3; ++i) {
+        if(x[i]<1.5 || x[i]>3.5) 
+            return -1e150;
+    }
+    for(size_t i = 3; i != x_size; ++i) {
         if(x[i]<default_paras[i]*ratio[0] || x[i]>default_paras[i]*ratio[1]) {
             return -1e150;
         }
@@ -49,6 +63,7 @@ double log_likelihood(double x[]) {
 //    for(size_t i = 0; i != NBinsHK-1; ++i) {
 //        res += -lambHK[i] + N_HK[i] * log(lambHK[i]);
 //    }
+    
     rateGen(expr_hkibd, x, 10., lambHKibd, NBinsHKibd);
     for(size_t i = 0; i != NBinsHKibd-1; ++i) {
         res += -lambHKibd[i] + N_HKibd[i] * log(lambHKibd[i]);
@@ -63,7 +78,7 @@ double log_likelihood(double x[]) {
     for(size_t i = 0; i != NBinsDUNE; ++i) {
         res += -lambDUNE[i] + N_DUNE[i] * log(lambDUNE[i]);
     }
-
+    
     // ResNova
     pygetSpec(x, lambRes); // 10kpc by default
     for(size_t i = 0; i != NBinsRes; ++i) {
@@ -71,7 +86,19 @@ double log_likelihood(double x[]) {
     }
 
 #ifdef DEBUG
+    myprt(lambHKibd, "lambHKibd");
+    myprt(N_HKibd, "N_HKibd");
+    myprt(lambHKes, "lambHKes");
+    myprt(N_HKes, "N_HKes");
+    myprt(lambDUNE, "lambDUNE");
+    myprt(N_DUNE, "N_DUNE");
+    myprt(lambRes, "lambRes");
+    myprt(N_RESNOV, "N_RESNOV");
+#endif
+
+#ifdef DEBUG
     printf("res=%lf\n", res);
 #endif
     return res;
 }
+

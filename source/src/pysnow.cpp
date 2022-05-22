@@ -49,13 +49,10 @@ void init_two_exps() {
 
 void rateGen(Detector &expr, double paras[], double dist, double res[], size_t res_sz) {
 
-//    double alpha[3] = {2.5, 2.5, 2.5};
-//    double E0[3] = {9.5, 12, 15.6}; // MeV
-//    double L[3] = {5e52, 5e52, 5e52}; // erg
-//    double dist = 10.; // kpc
-//    double selected_energies[15];  // GeV
-
     static bool not_init = 1; // definition excuted only once
+#ifdef PARADEBUG
+    cout << "pid:" << expr.getFnum() << ",not_init:" << not_init << endl;
+#endif
     if(not_init) {init_two_exps(); not_init=0;}
 #ifdef ERROR
     if(res_sz != expr.getNumberEnergies()-1) {
