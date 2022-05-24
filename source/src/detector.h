@@ -14,7 +14,10 @@ enum ExpName {
     HyperK = 1024,
     HyperKibd = 1025,
     HyperKES = 1026,
-    DUNE = 2049
+    DUNE = 2049,
+    JUNOpES = 4097,
+    JUNOibd = 4098,
+    JUNOES = 4099
 };
         
 class Detector {

@@ -12,7 +12,9 @@ enum {
     NEHKes = 11,
     NBinsHKes = 10,
     NEDUNE = 11,
-    NBinsDUNE = 10
+    NBinsDUNE = 10,
+    NEJUNO = 2,
+    NBinsJUNO = 1
 };
 
 extern "C" {
@@ -20,6 +22,9 @@ extern "C" {
     extern Detector expr_hkibd; // declaration
     extern Detector expr_hkes; // declaration
     extern Detector expr_dune; // declaration
+    extern Detector expr_junopes; // definition
+    extern Detector expr_junoes; // definition
+    extern Detector expr_junoibd; // definition
 }
 
 extern "C" {

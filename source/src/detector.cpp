@@ -55,6 +55,33 @@ Detector::Detector(ExpName DetectorName) {
             }
             this->NumberChannels = chcnt;
             break;
+        case JUNOpES:
+            strcpy(this->detconfigname, "juno");
+            strcpy(this->channelname, "juno");
+            for(size_t k = 22; k != 28; ++k) {
+                ++chcnt;
+                this->SelectedChannels[k-22] = k;
+            }
+            this->NumberChannels = chcnt;
+            break;
+        case JUNOibd:
+            strcpy(this->detconfigname, "juno");
+            strcpy(this->channelname, "juno");
+            for(size_t k = 0; k != 1; ++k) {
+                ++chcnt;
+                this->SelectedChannels[k] = k;
+            }
+            this->NumberChannels = chcnt;
+            break;
+        case JUNOES:
+            strcpy(this->detconfigname, "juno");
+            strcpy(this->channelname, "juno");
+            for(size_t k = 1; k != 7; ++k) {
+                ++chcnt;
+                this->SelectedChannels[k-1] = k;
+            }
+            this->NumberChannels = chcnt;
+            break;
         default:
             fprintf(stderr, "wrong detector name");
             exit(-1);

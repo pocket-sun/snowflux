@@ -13,11 +13,16 @@ extern "C" {
     Detector expr_hkibd(HyperKibd); // definition
     Detector expr_hkes(HyperKES); // definition
     Detector expr_dune(DUNE); // definition
+    Detector expr_junopes(JUNOpES); // definition
+    Detector expr_junoes(JUNOES); // definition
+    Detector expr_junoibd(JUNOibd); // definition
 }
 
 // energy bin array should be entailed program lifetime
 double hk_energies[NEHK], dune_energies[NEDUNE]; // GeV
 double hkibd_energies[NEHKibd], hkes_energies[NEHKes];
+double junopes_energies[NEJUNO];
+double junoibd_energies[NEJUNO], junoes_energies[NEJUNO];
 void init_two_exps() { 
 #ifdef DEBUG
     cout << "initialization finished" << endl;
@@ -34,16 +39,28 @@ void init_two_exps() {
         // 6MeV~60MeV, 10bins
         dune_energies[i] = 6e-3 + (54e-3*i)/(NEDUNE-1);
     }
+    for(size_t i = 0; i != NEJUNO; ++i) {
+        // 1.5MeV~5MeV, 1bins
+        junopes_energies[i] = 1.5e-3 + (4.6e-3*i)/(NEJUNO-1);
+        junoes_energies[i] = 1.5e-3 + (4.6e-3*i)/(NEJUNO-1);
+        junoibd_energies[i] = 1.5e-3 + (4.6e-3*i)/(NEJUNO-1);
+    }
     expr_hk.setEnergyBins(hk_energies, NEHK);
     expr_hkibd.setEnergyBins(hkibd_energies, NEHKibd);
     expr_hkes.setEnergyBins(hkes_energies, NEHKes);
     expr_dune.setEnergyBins(dune_energies, NEDUNE);
+    expr_junopes.setEnergyBins(junopes_energies, NEJUNO);
+    expr_junoes.setEnergyBins(junoes_energies, NEJUNO);
+    expr_junoibd.setEnergyBins(junoibd_energies, NEJUNO);
 
     // globe intialization 
     expr_hkibd.glbinit();
     expr_hkes.glbinit();
     expr_hk.glbinit(); 
     expr_dune.glbinit(); 
+    expr_junopes.glbinit();
+    expr_junoes.glbinit();
+    expr_junoibd.glbinit();
 
 }
 

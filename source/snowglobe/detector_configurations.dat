@@ -1,5 +1,6 @@
 # Configuration/  mass in kton / target normalization
-hyperk         374.     0.1111
+hyperk         220.     0.1111
+juno           20.      0.1208
 wc100kt30prct  100.     0.1111
 wc100kt15prct  100.     0.1111
 ar40kt         40.      0.025
