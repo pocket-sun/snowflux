@@ -99,13 +99,13 @@ void getSpec(double (*fun)(float,float,fluxpara), float (*spec)[2], float Eth, f
     }
 }
 /*------------------------------------------------*/
-// interface to ctypes
-#define pyEth 0.5
-#define pybinStep 1
+// ResNova
+#define pyEthResNova 0.5
+#define pybinStepResNova 1
 static float pyspec[50][2];
 // length(inputs)=9, length(outputs)=NBinsRes
 // which should be guarteed by user and no safty check is warranted
-void pygetSpec(double inputs[], double outputs[]) {
+void pygetSpecResNova(double inputs[], double outputs[]) {
 
     // spectral parameters
 //    static const float Eth = 0.5;
@@ -120,7 +120,7 @@ void pygetSpec(double inputs[], double outputs[]) {
         f.vae[2-k] = inputs[3*k+1];
         f.vx[2-k] = inputs[3*k+2];
     }
-    getSpec(ResNovaCounts,pyspec,pyEth,pybinStep,NBinsRes,f);
+    getSpec(ResNovaCounts,pyspec,pyEthResNova,pybinStepResNova,NBinsRes,f);
     for(size_t k = 0; k != NBinsRes; ++k) {
         outputs[k] = pyspec[k][1];
     }
@@ -132,6 +132,44 @@ void pygetSpec(double inputs[], double outputs[]) {
     cout << endl;
     cout << "spectrum:" << endl;
     for(size_t k = 0; k != NBinsRes; ++k) {
+        cout << pyspec[k][0] << "    " <<  outputs[k] << endl;
+    }
+#endif
+}
+
+/*------------------------------------------------*/
+// Argo
+#define pyEthArgo 0.5
+#define pybinStepArgo 1
+// length(inputs)=9, length(outputs)=NBinsArgo
+// which should be guarteed by user and no safty check is warranted
+void pygetSpecArgo(double inputs[], double outputs[]) {
+
+    // spectral parameters
+//    static const float Eth = 0.5;
+//    static const float binStep = 1;
+//    static const int nbin = 20;
+
+    // neutrino flux for tests
+    static fluxpara f;     
+    f.distance = 10;
+    for(size_t k = 0; k != 3; ++k) {
+        f.ve[2-k] = inputs[3*k];
+        f.vae[2-k] = inputs[3*k+1];
+        f.vx[2-k] = inputs[3*k+2];
+    }
+    getSpec(ArgoCounts,pyspec,pyEthArgo,pybinStepArgo,NBinsArgo,f);
+    for(size_t k = 0; k != NBinsArgo; ++k) {
+        outputs[k] = pyspec[k][1];
+    }
+#ifdef DEBUG
+    cout << "spectrum parameters:" << endl;
+    for(size_t k = 0; k != 9; ++k) {
+        cout << inputs[k] << "  ";
+    }
+    cout << endl;
+    cout << "spectrum:" << endl;
+    for(size_t k = 0; k != NBinsArgo; ++k) {
         cout << pyspec[k][0] << "    " <<  outputs[k] << endl;
     }
 #endif

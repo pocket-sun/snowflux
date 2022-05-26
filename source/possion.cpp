@@ -44,6 +44,8 @@ int main() {
     double junopes[1] = {95.04};
     double junoes[1] = {135.25};
     double junoibd[1] = {63.40};
+
+    double argo[10] = {277.54,221.21,181.83,152.39,129.53,111.28,96.44,84.19,73.94,65.27};
     
    possion_dis(hkibd, 10); 
    possion_dis(hkes, 10); 
@@ -52,6 +54,7 @@ int main() {
    possion_dis(junopes, 1);
    possion_dis(junoes, 1);
    possion_dis(junoibd, 1);
+   possion_dis(argo, 10);
 
    return 0;
 }

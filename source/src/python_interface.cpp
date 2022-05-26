@@ -44,7 +44,9 @@ static double lambRes[NBinsRes];
 static double lambJUNOpes[NBinsJUNO];
 static double lambJUNOes[NBinsJUNO];
 static double lambJUNOibd[NBinsJUNO];
+static double lambArgo[NBinsArgo];
 double log_likelihood(double x[]) {
+
 
     /* data input */
 //  static const double N_HK[NBinsHK] = {0.};
@@ -55,6 +57,7 @@ double log_likelihood(double x[]) {
     static const double N_JUNOpes[NBinsJUNO] = {83};
 //    static const double N_JUNOes[NBinsJUNO] = {149};
 //    static const double N_JUNOibd[NBinsJUNO] = {51};
+    static const double N_ARGO[NBinsArgo] = {282,227,164,140,128,104,101,77,73,66};
     
     static const size_t x_size = 9;
     double res = log_prior(x);
@@ -87,7 +90,7 @@ double log_likelihood(double x[]) {
     }
     
     // ResNova
-    pygetSpec(x, lambRes); // 10kpc by default
+    pygetSpecResNova(x, lambRes); // 10kpc by default
     for(size_t i = 0; i != NBinsRes; ++i) {
         res += -lambRes[i] + N_RESNOV[i] * log(lambRes[i]);
     }
@@ -108,6 +111,12 @@ double log_likelihood(double x[]) {
     }
     */
 
+    // Argo
+    pygetSpecArgo(x, lambArgo); // 10kpc by default
+    for(size_t i = 0; i != NBinsArgo; ++i) {
+        res += -lambArgo[i] + N_ARGO[i] * log(lambArgo[i]);
+    }
+    
 #ifdef DEBUG
     myprt(lambHKibd, "lambHKibd", NBinsHKibd);
     myprt(N_HKibd, "N_HKibd", NBinsHKibd);
@@ -123,6 +132,8 @@ double log_likelihood(double x[]) {
 //    myprt(N_JUNOes, "N_JUNOes", NBinsJUNO);
 //    myprt(lambJUNOibd, "lambJUNOibd", NBinsJUNO);
 //    myprt(N_JUNOibd, "N_JUNOibd", NBinsJUNO);
+    myprt(lambArgo, "lambArgo", NBinsArgo);
+    myprt(N_ARGO, "N_ARGO", NBinsArgo);
 #endif
 
 #ifdef DEBUG
